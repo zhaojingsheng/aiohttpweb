@@ -1,0 +1,8 @@
+postgres:
+  database: pyweb
+  user: pyweb
+  password: pyweb
+  host: 10.92.1.121
+  port: 3306
+  minsize: 1
+  maxsize: 5
