@@ -44,22 +44,21 @@ async def init_mysql(app):
 
 async def close_mysql(app):
     app["db"].close()
-    await app["db"].wait_closed()
+    await app["db"].wait_closed() #等待释放关闭所有连接的协程，所有的引擎关闭之后再close()之后调用
 
 async def get_question(conn, question_id):
     result = await conn.execute(
-        question.select()
-        .where(question.c.id == question_id))
-    question_record = await result.first()
+        question.select().where(question.c.id==question_id))  #搜索id为question_id的question
+    question_record=await result.first()
     if not question_record:
-        msg = "Question with id: {} does not exists"
+        msg="Question with id: {} does not exists"
         raise RecordNotFound(msg.format(question_id))
-    result = await conn.execute(
+    result=await conn.execute(
         choice.select()
-        .where(choice.c.question_id == question_id)
+        .where(choice.c.question_id==question_id)
         .order_by(choice.c.id))
-    choice_records = await result.fetchall()
-    return question_record, choice_records
+    choice_records=await result.fetchall()
+    return (question_record,choice_records)
 
 
 async def vote(conn, question_id, choice_id):
@@ -74,23 +73,3 @@ async def vote(conn, question_id, choice_id):
         msg = "Question with id: {} or choice id: {} does not exists"
         raise RecordNotFound(msg.format(question_id, choice_id))
 
-if __name__=="__main__":
-    async def go():
-        conf=config["postgres"]
-        # print(conf)
-        engine = await create_engine(host=conf['host'],
-                                     port=conf['port'],
-                                     user=conf["user"], password=conf["password"],
-                                     db=conf["database"],
-                                     minsize=conf["minsize"],
-                                     maxsize=conf["maxsize"])
-        async with engine.acquire() as conn:
-            result = await conn.execute(
-                question.select()
-                    .where(question.c.id == 0))
-            print(await result.first())
-    loop=asyncio.get_event_loop()
-    # task=asyncio.ensure_future(go())
-    loop.run_until_complete(go())
-
-    loop.close()
