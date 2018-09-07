@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, MetaData
 
-from aioweb.aiohttpdemo_polls.settings import config
-from aioweb.aiohttpdemo_polls.db import question, choice
+from aiohttpdemo_polls.settings import config
+from aiohttpdemo_polls.db import question, choice
 
 
 DSN = "mysql+pymysql://{user}:{password}@{host}:{port}/{database}"

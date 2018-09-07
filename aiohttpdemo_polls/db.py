@@ -1,4 +1,4 @@
-from aioweb.aiohttpdemo_polls.settings import  config
+
 from sqlalchemy import (
     MetaData, Table, Column, ForeignKey,
     Integer, String, Date
@@ -58,7 +58,7 @@ async def get_question(conn, question_id):
         .where(choice.c.question_id==question_id)
         .order_by(choice.c.id))
     choice_records=await result.fetchall()
-    return (question_record,choice_records)
+    return (question_record,choice_records)  #返回表对象
 
 
 async def vote(conn, question_id, choice_id):

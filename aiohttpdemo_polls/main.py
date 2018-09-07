@@ -7,10 +7,10 @@ import pathlib
 import yaml
 import os
 
-from aioweb.aiohttpdemo_polls import routes
-from aioweb.aiohttpdemo_polls.settings import config
-from aioweb.aiohttpdemo_polls.db import init_mysql,close_mysql
-from aioweb.aiohttpdemo_polls.middlewares import setup_middlewares
+from aiohttpdemo_polls import routes
+from aiohttpdemo_polls.settings import config
+from aiohttpdemo_polls.db import init_mysql,close_mysql
+from aiohttpdemo_polls.middlewares import setup_middlewares
 
 tmp_path=os.path.split(__file__)[0]+"/templates"
 
