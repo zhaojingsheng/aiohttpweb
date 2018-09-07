@@ -40,7 +40,7 @@ async def init_mysql(app):
                            db=conf["database"],
                             minsize=conf["minsize"],
                             maxsize=conf["maxsize"])
-    app["db"]=engine
+    app["db"]=engine  #将连接池添加进共享数据
 
 async def close_mysql(app):
     app["db"].close()
